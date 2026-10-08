@@ -244,20 +244,20 @@ public class MiniSQLite
     public static ushort Be16(byte[] b, int o) { return (ushort)((b[o] << 8) | b[o + 1]); }
     public static uint Be32(byte[] b, int o) { return ((uint)b[o] << 24) | ((uint)b[o + 1] << 16) | ((uint)b[o + 2] << 8) | (uint)b[o + 3]; }
 
-    private long Varint(byte[] b, ref int o)
+private long Varint(byte[] b, ref int o)
+{
+    ulong r = 0;
+    for (int i = 0; i < 8; i++)
     {
-        ulong r = 0;
-        for (int i = 0; i < 8; i++)
-        {
-            byte c = b[o];
-            o++;
-            r = (r << 7) | (ulong)(c & 0x7F);
-            if ((c & 0x80) == 0) return (long)r;
-        }
-        r = (r << 8) | (ulong)b[o];
+        uint c = b[o];
         o++;
-        return (long)r;
+        r = (r << 7) | (ulong)(c & 0x7Fu);
+        if ((c & 0x80u) == 0) return (long)r;
     }
+    r = (r << 8) | (ulong)b[o];
+    o++;
+    return (long)r;
+}
 
     public List<object[]> WalkTable(int rootPage)
     {
